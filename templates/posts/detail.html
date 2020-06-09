@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+        <section  class="banner_area">
+            <div class="banner_inner d-flex align-items-center">
+            <div style="background-color:white; width:100%;height:270px;" class="">
+					<div class="banner_content align-items-center ">
+					    <img style="width:100%; height:100%; object-fit:cover; " src="{% static 'img/dev-blog/dev3.jpg' %}" alt="">
+
+					</div>
+				</div>
+            	<div >
+                </div>
+            </div>
+        </section>
+        <!--================End Home Banner Area =================-->
+        
+        <!--================Blog Area =================-->
+        <section class="blog_area p_120 single-post-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+       					<div class="main_blog_details">
+       						<img style="width:80%" class="img-fluid" src="{{single.image.url}}" alt="">
+       						<a href="#"><h4>{{single.title}}</h4></a>
+       						<div class="user_details">
+       							<div class="float-right">
+       								<div class="media">
+       									<div class="media-body">
+       										<h5> <a href="">{{single.user.username}}</a></h5>
+       										<p>{{single.publishing_date}}</p>
+       									</div>
+       									<div class="d-flex">
+       										<img width=40  height=40 src="{{ single.image.url}}" alt="">
+       									</div>
+       								</div>
+       							</div>
+       						</div>
+                               {% if single.user == request.user %}
+       						    <a href="{% url 'post_update' pk=single.id slug=single.slug %}"><p>{{single.content}}</p></a>
+                                 <a href="{% url 'post_delete' pk=single.id slug=single.slug %}"><i class="lnr lnr lnr-trash"></i></a>
+                                {% else %}
+                                <p>{{single.content}}</p>
+                               {% endif %}
+      						<div class="news_d_footer">
+      							<a class="justify-content-center ml-auto" href="#"><i class="lnr lnr lnr-bubble"></i>{{single.comment_count}} Comments</a>
+      							<div class="news_socail ml-auto">
+									<a href="#"><i class="fa fa-facebook"></i></a>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+									<a href="#"><i class="fa fa-youtube-play"></i></a>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+									<a href="#"><i class="fa fa-rss"></i></a>
+								</div>
+      						</div>
+       					</div>
+       					<div class="navigation-area">
+                            <div class="row">
+                                {% if previous %}
+                                <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                                    <div class="thumb">
+                                        <a href="#"><img class="img-fluid" width=50 height=50 src="{{ previous.image.url }}" alt=""></a>
+                                    </div>
+                                    <div class="arrow">
+                                        <a href="{% url 'detail' pk=previous.id slug=previous.slug%}"><span class="lnr text-white lnr-arrow-left"></span></a>
+                                    </div>
+                                    <div class="detials">
+                                        <p>Prev Post</p>
+                                        <a href="{% url 'detail' pk=previous.id slug=previous.slug%}"><h4>{{previous.title}}</h4></a>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="col-lg-6 col-md-6 col-12 nav-left flex-row d-flex justify-content-start align-items-center">
+                                    <div class="thumb">
+                                        <a href="#"><img class="img-fluid" width=50 height=50 src="{{ previous.image.url }}" alt=""></a>
+                                    </div>
+                                    <div class="arrow">
+                                        <a href=""><span class="lnr text-white lnr-arrow-left"></span></a>
+                                    </div>
+                                    <div class="detials">
+                                    
+                                        <a href=""><h4>{{previous.title}}</h4></a>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if next %}
+                                <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                                    <div class="detials">
+                                        <p>Next Post</p>
+                                        <a href="#"><h4>{{next.title}}</h4></a>
+                                    </div>
+                                    <div class="arrow">
+                                        <a href="{% url 'detail' pk=next.id slug=next.slug%}"><span class="lnr text-white lnr-arrow-right"></span></a>
+                                    </div>
+                                    <div class="thumb">
+                                        <a href="{% url 'detail' pk=next.id slug=next.slug%}"><img class="img-fluid" src="{{next.image.url}}" width=50 height=50 alt=""></a>
+                                    </div>										
+                                </div>									
+                                 </div>
+                                {% else %}
+                                <div class="col-lg-6 col-md-6 col-12 nav-right flex-row d-flex justify-content-end align-items-center">
+                                    <div class="detials">
+                                        <a href="#"><h4></h4></a>
+                                    </div>
+                                    <div class="arrow">
+                                        <a href="#"><span class="lnr text-white lnr-arrow-right"></span></a>
+                                    </div>
+                                    <div class="thumb">
+                                        <a href="#"><img class="img-fluid" src="" alt=""></a>
+                                    </div>										
+                                </div>									
+                            </div>
+                                {% endif %}
+                                
+                                
+                        </div>
+                        <div class="comments-area">
+                            <h4>{{single.comment_count}} Comments</h4>
+                            {% for comment in single.comments.all %}
+                            <div class="comment-list">
+                                <div class="single-comment justify-content-between d-flex">
+                                    <div class="user justify-content-between d-flex">
+                                        <div class="thumb">
+                                            <img width=40 height=40 src="{% static 'img/dev-blog/dev1.jpg' %}" alt="">
+                                        </div>
+                                        <div class="desc">
+                                            <h5><a href=""></a>{{comment.name}}</h5>
+                                            <p class="date">{{comment.publishing_date}} </p>
+                                            <a href="">
+                                                <p class="comment">
+                                              {{comment.content}}
+                                            </p>
+                                            </a>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>	 
+                             {% endfor %}                       				
+                        </div>
+                        <div style="background:#D5D7D8;"  class="comment-form">
+                            <h4>Yorum Ekle</h4>
+                            {% if form.errors %}
+                                <div class="alert alert-danger alert-dismissible col-12 mx-1" role="alert">
+                                    <div id="form_errors">
+                                        {% for key,value in form.errors.items  %}
+                                            <span class="fieldWrapper">
+                                                {{key}}:{{value}}
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% else %}
+                            {% endif %}
+                             {% crispy form %}
+                        </div>
+        			</div>
+                {% include "right_side.html" %}
+                </div>
+            </div>
+        </section>
+
+{% endblock body %}

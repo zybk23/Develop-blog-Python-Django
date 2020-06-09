@@ -1,0 +1,70 @@
+      {% extends "index.html" %}  
+
+      {% load static %}
+
+      {% block body %}
+        <section  class="banner_area">
+            <div class="banner_inner d-flex align-items-center">
+            <div style="background-color:white; width:100%;height:270px;" class="">
+					<div class="banner_content align-items-center ">
+					    <img style="width:100%; height:100%; object-fit:cover; " src="{% static 'img/dev-blog/dev3.jpg' %}" alt="">
+
+					</div>
+				</div>
+            	<div >
+                </div>
+            </div>
+        </section>
+     
+        <section class="blog_area p_120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="blog_left_sidebar">
+                        
+                                    <div class=" offset-md-2 mr-3">
+                                        <h3>Giriş Yap</h3>
+                                        <hr>
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            {% if form.errors %}
+                                                <div id="errors">
+                                                    <div class="inner">
+                                                        <p style="color:red">Hatalarınız</p>
+                                                        <ul>
+                                                            {% for field in form  %}
+                                                                {% if field.errors %}
+                                                                    <li>{{field.label}}: {{field.errors | striptags}}</li>
+                                                                {% else %}
+
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                            {% endif %}
+                                            {%load crispy_forms_tags%}  
+                                            {{form|crispy}}
+                                            <br>
+                                            <div class="d-flex justify-content-between">
+                                                 <button id="btn" type="submit" class="genric-btn success circle">Giriş Yap</button>
+                                                <a  href="{% url 'users:register' %}" class="genric-btn danger circle arrow">Kayıt Ol<span class="lnr lnr-arrow-right"></span></a>
+
+                                            </div>
+                                        </form>
+                                    </div>    
+                              
+                        </div>
+                    </div>
+                    {% include "right_side.html" %}
+                </div>
+            </div>
+        </section>
+
+      {% endblock  %}
+        
+        
+        
+        
+        

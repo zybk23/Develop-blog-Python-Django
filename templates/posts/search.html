@@ -1,0 +1,111 @@
+      {% extends "index.html" %}  
+
+      {% load static %}
+
+      {% block body %}
+        <section  class="banner_area">
+            <div class="banner_inner d-flex align-items-center">
+            <div style="background-color:white; width:100%;height:270px;" class="">
+					<div class="banner_content align-items-center ">
+					    <img style="width:100%; height:100%; object-fit:cover; " src="{% static 'img/dev-blog/dev3.jpg' %}" alt="">
+
+					</div>
+				</div>
+            	<div >
+                </div>
+            </div>
+        </section>
+     
+        <section class="blog_area p_120">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="blog_left_sidebar">
+                            {% for post in posts  %}
+                            <article class="blog_style1">
+                            	<div class="blog_img">
+                            		<img class="img-fluid" src="{{post.image.url}}" alt="">
+                            	</div>
+                            	<div class="blog_text">
+									<div class="blog_text_inner">
+										<a class="cat" href="#">Gadgets</a>
+										<a href="{% url 'detail' pk=post.id slug=post.slug %}"><h4>{{post.title}}</h4></a>
+                                        <p>{{post.content | truncatechars:175}}</p>
+										<div class="date">
+											<a href="#"><i class="fa fa-calendar" aria-hidden="true"></i> {{post.publishing_date}}</a>
+											<a href="#"><i class="fa fa-comments-o" aria-hidden="true"></i> 05</a>
+										</div>	
+									</div>
+                            	</div>
+                            </article>
+                            {% endfor %}
+                            
+                           {% if is_paginated %}
+							
+							
+                            <nav class="blog-pagination justify-content-center d-flex">
+		                        <ul class="pagination">
+								{% if page_obj.has_previous %}
+									<li class="page-item">
+									
+		                                <a href="?q={{request.GET.q}} & page={{page_obj.previous_page_number}}" class="page-link" aria-label="Previous">
+		                                    <span aria-hidden="true">
+		                                        <span class="lnr lnr-chevron-left"></span>
+		                                    </span>
+		                                </a>
+		                            </li>
+									{% else %}
+									<li class="page-item disabled">
+									
+		                                <a href="" class="page-link" aria-label="Previous">
+		                                    <span aria-hidden="true">
+		                                        <span class="lnr lnr-chevron-left"></span>
+		                                    </span>
+		                                </a>
+		                            </li>
+									{% endif %}
+
+		                            {% for i in paginator.page_range  %}
+									
+									{% if page_obj.number == i %}
+									<li class="page-item active"><a href="#" class="page-link">{{i}}</a></li>
+									{% else %}
+									<li class="page-item "><a href="?page={{i}}" class="page-link">{{i}}</a></li>	
+									{% endif %}
+									
+									{% endfor %}
+									{% if page_obj.has_next %}
+										<li class="page-item">
+		                                <a href="? page={{ page_obj.next_page_number }}" class="page-link" aria-label="Next">
+		                                    <span aria-hidden="true">
+		                                        <span class="lnr lnr-chevron-right"></span>
+		                                    </span>
+		                                </a>
+		                            </li>
+									{% else %}
+									<li class="page-item disabled">
+		                                <a href="#" class="page-link" aria-label="Next">
+		                                    <span aria-hidden="true">
+		                                        <span class="lnr lnr-chevron-right"></span>
+		                                    </span>
+		                                </a>
+		                            </li>
+									{% endif %}
+		                            
+		                        </ul>
+		                    </nav>
+							{% else %}
+							{% endif %}
+                        </div>
+                    </div>
+                    {% include "right_side.html" %}
+                </div>
+            </div>
+        </section>
+
+      {% endblock  %}
+        
+        
+        
+        
+        
